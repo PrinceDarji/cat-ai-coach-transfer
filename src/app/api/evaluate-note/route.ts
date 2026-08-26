@@ -15,7 +15,7 @@ If the note is good, praise them. Return the feedback in markdown format.`;
     const prompt = `Title: ${title}\n\nContent:\n${content}\n\nPlease evaluate this note.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.6-flash",
       contents: prompt,
       config: {
         systemInstruction: systemInstruction,

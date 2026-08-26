@@ -21,7 +21,7 @@ Return the output strictly as a JSON object with this exact structure:
 Ensure the JSON is valid and complete. Do NOT return markdown formatting around it, just the raw JSON.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.6-flash",
       contents: "Generate a practice question now.",
       config: {
         systemInstruction: systemInstruction,

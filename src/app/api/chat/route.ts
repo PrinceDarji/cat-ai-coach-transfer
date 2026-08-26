@@ -21,7 +21,7 @@ Be encouraging, concise, and helpful. Format your responses in markdown. Use LaT
 When a student asks for a practice question or explanation, be clear and step-by-step.`;
 
     const responseStream = await ai.models.generateContentStream({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.6-flash",
       contents: contents,
       config: {
         systemInstruction: systemInstruction,
