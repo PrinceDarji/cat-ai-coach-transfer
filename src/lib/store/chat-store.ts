@@ -27,7 +27,8 @@ export const useChatStore = create<ChatState>()(
       updateLastMessage: (contentUpdate: string) => set((state) => {
         if (state.messages.length === 0) return state;
         const newMsgs = [...state.messages];
-        newMsgs[newMsgs.length - 1].content += contentUpdate;
+        const lastMsg = newMsgs[newMsgs.length - 1];
+        newMsgs[newMsgs.length - 1] = { ...lastMsg, content: lastMsg.content + contentUpdate };
         return { messages: newMsgs };
       }),
       

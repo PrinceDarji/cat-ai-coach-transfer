@@ -223,7 +223,8 @@ export default function LearnPage() {
             const textChunk = decoder.decode(value, { stream: true });
             setChatMessages(prev => {
               const newMsgs = [...prev];
-              newMsgs[newMsgs.length - 1].text += textChunk;
+              const lastMsg = newMsgs[newMsgs.length - 1];
+              newMsgs[newMsgs.length - 1] = { ...lastMsg, text: lastMsg.text + textChunk };
               return newMsgs;
             });
           }
