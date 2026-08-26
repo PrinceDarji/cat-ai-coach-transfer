@@ -21,7 +21,7 @@ Be encouraging, concise, and helpful. Format your responses in markdown. Use LaT
 When a student asks for a practice question or explanation, be clear and step-by-step.`;
 
     const responseStream = await ai.models.generateContentStream({
-      model: "gemini-3.7-flash",
+      model: "gemini-2.5-flash",
       contents: contents,
       config: {
         systemInstruction: systemInstruction,
@@ -30,12 +30,18 @@ When a student asks for a practice question or explanation, be clear and step-by
 
     const stream = new ReadableStream({
       async start(controller) {
-        for await (const chunk of responseStream) {
-          if (chunk.text) {
-            controller.enqueue(new TextEncoder().encode(chunk.text));
+        try {
+          for await (const chunk of responseStream) {
+            if (chunk.text) {
+              controller.enqueue(new TextEncoder().encode(chunk.text));
+            }
           }
+        } catch (err) {
+          console.error("Stream error:", err);
+          controller.enqueue(new TextEncoder().encode("\n[Error: Stream interrupted]"));
+        } finally {
+          controller.close();
         }
-        controller.close();
       }
     });
 
@@ -47,3 +53,5 @@ When a student asks for a practice question or explanation, be clear and step-by
     return new Response('Failed to generate response', { status: 500 });
   }
 }
+
+export const runtime = 'edge';
