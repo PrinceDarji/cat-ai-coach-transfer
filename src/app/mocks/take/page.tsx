@@ -11,30 +11,30 @@ const AVAILABLE_MOCKS = [
     id: 'demo-mini',
     name: 'CAT 2026 Mini Mock (Demo)',
     description: 'A 9-question mini mock (3 per section) to test the exam interface.',
-    duration: 15, // 5 mins per section
+    duration: 15,
     totalQuestions: 9,
+    status: 'new'
+  },
+  {
+    id: 'cat-2025-slot-1',
+    name: 'CAT 2025 Slot 1 (PYQ)',
+    description: 'Official CAT 2025 Slot 1 question paper.',
+    duration: 120,
+    totalQuestions: 66,
+    status: 'new'
+  },
+  {
+    id: 'cat-2025-slot-2',
+    name: 'CAT 2025 Slot 2 (PYQ)',
+    description: 'Official CAT 2025 Slot 2 question paper.',
+    duration: 120,
+    totalQuestions: 66,
     status: 'new'
   },
   {
     id: 'cat-2023-slot-1',
     name: 'CAT 2023 Slot 1 (PYQ)',
     description: 'Full official CAT 2023 Slot 1 question paper.',
-    duration: 120, // 40 mins per section
-    totalQuestions: 66,
-    status: 'new'
-  },
-  {
-    id: 'cat-2023-slot-2',
-    name: 'CAT 2023 Slot 2 (PYQ)',
-    description: 'Full official CAT 2023 Slot 2 question paper.',
-    duration: 120,
-    totalQuestions: 66,
-    status: 'locked'
-  },
-  {
-    id: 'cat-2022-slot-1',
-    name: 'CAT 2022 Slot 1 (PYQ)',
-    description: 'Full official CAT 2022 Slot 1 question paper.',
     duration: 120,
     totalQuestions: 66,
     status: 'locked'

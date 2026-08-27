@@ -13,6 +13,8 @@ import 'katex/dist/katex.min.css';
 
 // Import our demo mock
 import { DEMO_MINI_MOCK } from '@/lib/content/mocks/demo';
+import { CAT_2025_SLOT_1 } from '@/lib/content/mocks/cat-2025-slot-1';
+import { CAT_2025_SLOT_2 } from '@/lib/content/mocks/cat-2025-slot-2';
 
 export default function MockExamEngine() {
   const router = useRouter();
@@ -21,7 +23,10 @@ export default function MockExamEngine() {
   const mockId = params.mockId as string;
 
   // Use the demo mock if ID matches, else show error
-  const mockData = mockId === 'demo-mini' ? DEMO_MINI_MOCK : null;
+  const mockData = mockId === 'demo-mini' ? DEMO_MINI_MOCK 
+                 : mockId === 'cat-2025-slot-1' ? CAT_2025_SLOT_1 
+                 : mockId === 'cat-2025-slot-2' ? CAT_2025_SLOT_2 
+                 : null;
 
   const [hasStarted, setHasStarted] = useState(false);
   const [currentSectionIdx, setCurrentSectionIdx] = useState(0);
