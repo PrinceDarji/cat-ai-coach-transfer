@@ -16,6 +16,7 @@ export default function PYQHub() {
   const [filterSection, setFilterSection] = useState<string | 'all'>('all');
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [showSolution, setShowSolution] = useState<string | null>(null);
+  const [userAnswers, setUserAnswers] = useState<Record<string, string | number>>({});
 
   const filteredPyqs = allPyqs.filter(q => {
     if (filterYear !== 'all' && q.year !== filterYear) return false;
@@ -119,20 +120,61 @@ export default function PYQHub() {
 
                       {pyq.type === 'mcq' && pyq.options && (
                         <div className="space-y-3">
-                          {pyq.options.map((opt, i) => (
-                            <div key={i} className={`p-4 rounded-xl border ${showSolution === pyq.id && pyq.correctAnswer === i ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300' : 'bg-[#1a1a24] border-white/10 text-white/80'}`}>
-                              <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>
-                                {opt}
-                              </ReactMarkdown>
-                            </div>
-                          ))}
+                          {pyq.options.map((opt, i) => {
+                            const isSelected = userAnswers[pyq.id] === i;
+                            const isCorrect = pyq.correctAnswer === i;
+                            const showResult = showSolution === pyq.id;
+                            
+                            let bgClass = isSelected ? 'bg-blue-500/20 border-blue-500/50' : 'bg-[#1a1a24] border-white/10';
+                            if (showResult) {
+                              if (isCorrect) bgClass = 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300';
+                              else if (isSelected && !isCorrect) bgClass = 'bg-rose-500/20 border-rose-500/50 text-rose-300';
+                            }
+
+                            return (
+                              <button 
+                                key={i} 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (showSolution !== pyq.id) setUserAnswers(prev => ({...prev, [pyq.id]: i}));
+                                }}
+                                className={`w-full text-left p-4 rounded-xl border transition-colors ${bgClass}`}
+                              >
+                                <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>
+                                  {opt}
+                                </ReactMarkdown>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {pyq.type === 'tita' && (
+                        <div className="space-y-3">
+                          <input 
+                            type="text"
+                            placeholder="Type your answer here..."
+                            value={(userAnswers[pyq.id] as string) || ''}
+                            onChange={(e) => {
+                              if (showSolution !== pyq.id) setUserAnswers(prev => ({...prev, [pyq.id]: e.target.value}));
+                            }}
+                            className="w-full bg-[#1a1a24] border border-white/20 rounded-xl p-4 text-white focus:outline-none focus:border-blue-500"
+                          />
                         </div>
                       )}
 
                       {showSolution === pyq.id ? (
                         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-blue-500/10 border border-blue-500/20 p-5 rounded-xl mt-6">
                           <h4 className="font-bold text-blue-400 mb-2">Solution</h4>
-                          {pyq.type === 'tita' && <p className="mb-4 text-white/80">Correct Answer: <strong>{pyq.correctAnswer}</strong></p>}
+                          {pyq.type === 'tita' && (
+                            <p className="mb-4 text-white/80">
+                              Correct Answer: <strong>{pyq.correctAnswer}</strong>
+                              <br/>
+                              <span className={String(userAnswers[pyq.id]).trim().toLowerCase() === String(pyq.correctAnswer).trim().toLowerCase() ? 'text-emerald-400' : 'text-rose-400'}>
+                                Your Answer: {userAnswers[pyq.id] || 'None'}
+                              </span>
+                            </p>
+                          )}
                           <div className="text-blue-200/80 text-sm">
                             <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>
                               {pyq.explanation || 'Detailed explanation not available yet.'}
@@ -144,7 +186,7 @@ export default function PYQHub() {
                           onClick={(e) => { e.stopPropagation(); setShowSolution(pyq.id); }}
                           className="mt-4 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition-colors"
                         >
-                          Show Solution
+                          Check Answer & Show Solution
                         </button>
                       )}
                     </div>
