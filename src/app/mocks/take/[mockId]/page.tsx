@@ -17,6 +17,8 @@ import { CAT_2025_SLOT_1 } from '@/lib/content/mocks/cat-2025-slot-1';
 import { CAT_2025_SLOT_2 } from '@/lib/content/mocks/cat-2025-slot-2';
 import { CAT_2024_SLOT_1 } from '@/lib/content/mocks/cat-2024-slot-1';
 import { CAT_2024_SLOT_3 } from '@/lib/content/mocks/cat-2024-slot-3';
+import { CAT_2023_SLOT_1 } from '@/lib/content/mocks/cat-2023-slot-1';
+import { CAT_2023_SLOT_2 } from '@/lib/content/mocks/cat-2023-slot-2';
 
 export default function MockExamEngine() {
   const router = useRouter();
@@ -30,6 +32,8 @@ export default function MockExamEngine() {
                  : mockId === 'cat-2025-slot-2' ? CAT_2025_SLOT_2 
                  : mockId === 'cat-2024-slot-1' ? CAT_2024_SLOT_1 
                  : mockId === 'cat-2024-slot-3' ? CAT_2024_SLOT_3 
+                 : mockId === 'cat-2023-slot-1' ? CAT_2023_SLOT_1 
+                 : mockId === 'cat-2023-slot-2' ? CAT_2023_SLOT_2 
                  : null;
 
   const [hasStarted, setHasStarted] = useState(false);
