@@ -28,3 +28,5 @@ If the note is good, praise them. Return the feedback in markdown format.`;
     return NextResponse.json({ error: 'Failed to evaluate note' }, { status: 500 });
   }
 }
+
+export const runtime = 'edge';

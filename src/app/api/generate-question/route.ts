@@ -36,3 +36,5 @@ Ensure the JSON is valid and complete. Do NOT return markdown formatting around 
     return NextResponse.json({ error: 'Failed to generate question' }, { status: 500 });
   }
 }
+
+export const runtime = 'edge';
