@@ -356,12 +356,16 @@ export default function MockExamEngine() {
           <h1 className="font-bold text-xl">{mockData.name}</h1>
           <div className="flex bg-white/5 rounded-lg p-1">
             {mockData.sections.map((sec, i) => (
-              <div 
+              <button 
                 key={sec.id} 
-                className={`px-4 py-1.5 rounded-md text-sm font-medium ${i === currentSectionIdx ? 'bg-blue-600 text-white shadow-sm' : 'text-white/40'}`}
+                onClick={() => {
+                  setCurrentSectionIdx(i);
+                  setCurrentQuestionIdx(0);
+                }}
+                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors ${i === currentSectionIdx ? 'bg-blue-600 text-white shadow-sm' : 'text-white/40 hover:text-white hover:bg-white/10'}`}
               >
                 {sec.name}
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -370,14 +374,12 @@ export default function MockExamEngine() {
             <Clock className="w-5 h-5" />
             {formatTime(timeLeft)}
           </div>
-          {currentSectionIdx === mockData.sections.length - 1 && (
-            <button 
-              onClick={() => setShowSubmitConfirm(true)}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg font-bold"
-            >
-              Submit Exam
-            </button>
-          )}
+          <button 
+            onClick={() => setShowSubmitConfirm(true)}
+            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg font-bold transition-colors"
+          >
+            Submit Early
+          </button>
         </div>
       </header>
 
