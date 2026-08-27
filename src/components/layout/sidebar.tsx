@@ -34,6 +34,7 @@ const NAV_ITEMS = [
   { label: 'Quant', href: '/quant', icon: Calculator, description: 'Quantitative Ability' },
   { label: 'LRDI', href: '/lrdi', icon: Puzzle, description: 'Logical Reasoning & DI' },
   { label: 'VARC', href: '/varc', icon: BookOpen, description: 'Verbal Ability & RC' },
+  { label: 'PYQs', href: '/pyqs', icon: FileText, description: 'Previous Year Questions' },
   { label: 'Mistakes', href: '/mistakes', icon: AlertCircle, description: 'Mistake Book' },
   { label: 'Mocks', href: '/mocks', icon: FileText, description: 'Mock Analysis' },
   { label: 'Notes', href: '/notes', icon: Notebook, description: 'Notes & Flashcards' },

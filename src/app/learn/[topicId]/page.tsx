@@ -13,8 +13,9 @@ import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { cn } from '@/lib/utils';
-import { TopicContent, PracticeQuestion } from '@/lib/content/types';
-import { getTopicContent } from '@/lib/content';
+import { getTopicContent, TopicContent, PracticeQuestion } from '@/lib/content';
+import { getPYQsByTopic } from '@/lib/content/pyqs';
+import { useXPStore } from '@/lib/store/xp-store';
 import { generateCoachResponse } from '@/lib/mock/ai-engine';
 
 // ─── Coach Chat Message ───
@@ -42,7 +43,9 @@ export default function LearnPage() {
   const [showHint, setShowHint] = useState(false);
   const [practiceHistory, setPracticeHistory] = useState<Record<number, { answer: string; correct: boolean }>>({});
   const [difficultyFilter, setDifficultyFilter] = useState<'all' | 'easy' | 'medium' | 'hard'>('all');
-  const [generatedQuestions, setGeneratedQuestions] = useState<PracticeQuestion[]>([]);
+  const [dataSource, setDataSource] = useState<'standard' | 'pyq'>('standard');
+  const [topicPyqs, setTopicPyqs] = useState<any[]>([]);
+  const [generatedQuestions, setGeneratedQuestions] = useState<any[]>([]);
   const [isGeneratingQuestion, setIsGeneratingQuestion] = useState(false);
 
   // Coach chat state
@@ -57,6 +60,7 @@ export default function LearnPage() {
         if (topicData) {
           setContent(topicData);
         }
+        setTopicPyqs(getPYQsByTopic(topicId));
       } catch (err) {
         console.error('Error loading content:', err);
       } finally {
@@ -89,7 +93,12 @@ export default function LearnPage() {
   const filteredQuestions = useMemo(() => {
     if (!content || !content.practice) return [];
     
-    const allQuestions = [...content.practice, ...generatedQuestions];
+    let allQuestions = [];
+    if (dataSource === 'standard') {
+      allQuestions = [...content.practice, ...generatedQuestions];
+    } else {
+      allQuestions = [...topicPyqs];
+    }
     
     // Normalize question objects because subagents used different schemas
     const totalQuestions = allQuestions.length;
@@ -429,6 +438,30 @@ export default function LearnPage() {
           {/* ═══════════ PRACTICE TAB ═══════════ */}
           {activeTab === 'practice' && (
             <motion.div key="practice" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
+              {/* Practice Source Toggle */}
+              <div className="flex justify-center mb-6">
+                <div className="flex bg-[#111116] border border-white/10 rounded-xl p-1 shadow-inner">
+                  <button
+                    onClick={() => { setDataSource('standard'); setCurrentQ(0); setSubmitted(false); }}
+                    className={cn(
+                      "px-6 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2",
+                      dataSource === 'standard' ? "bg-violet-600 text-white shadow-lg" : "text-white/40 hover:text-white"
+                    )}
+                  >
+                    <BrainCircuit className="w-4 h-4" /> AI Practice
+                  </button>
+                  <button
+                    onClick={() => { setDataSource('pyq'); setCurrentQ(0); setSubmitted(false); }}
+                    className={cn(
+                      "px-6 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2",
+                      dataSource === 'pyq' ? "bg-emerald-600 text-white shadow-lg" : "text-white/40 hover:text-white"
+                    )}
+                  >
+                    <BookOpen className="w-4 h-4" /> Actual PYQs ({topicPyqs.length})
+                  </button>
+                </div>
+              </div>
+
               {/* Difficulty filter + stats */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex gap-1 bg-white/5 rounded-lg p-0.5">

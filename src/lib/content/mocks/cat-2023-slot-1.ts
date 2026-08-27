@@ -42,6 +42,7 @@ export const CAT_2023_SLOT_1 = {
       questions: [
         {
           id: 'q1',
+          topicId: 'percentages',
           type: 'mcq',
           text: 'The ratio of the number of students in the morning shift and afternoon shift of a school was 13 : 9. After 21 students moved from the morning shift to the afternoon shift, this ratio became 19 : 14. Next, some new students joined the morning and afternoon shifts in the ratio 3 : 8 and then the ratio of the number of students in the morning shift and the afternoon shift became 5 : 4. The number of new students who joined is',
           options: ['110', '88', '121', '99'],
