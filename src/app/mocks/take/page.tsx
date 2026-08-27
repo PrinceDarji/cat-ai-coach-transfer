@@ -32,6 +32,22 @@ const AVAILABLE_MOCKS = [
     status: 'new'
   },
   {
+    id: 'cat-2024-slot-1',
+    name: 'CAT 2024 Slot 1 (PYQ)',
+    description: 'Official CAT 2024 Slot 1 question paper.',
+    duration: 120,
+    totalQuestions: 66,
+    status: 'new'
+  },
+  {
+    id: 'cat-2024-slot-3',
+    name: 'CAT 2024 Slot 3 (PYQ)',
+    description: 'Official CAT 2024 Slot 3 question paper.',
+    duration: 120,
+    totalQuestions: 66,
+    status: 'new'
+  },
+  {
     id: 'cat-2023-slot-1',
     name: 'CAT 2023 Slot 1 (PYQ)',
     description: 'Full official CAT 2023 Slot 1 question paper.',
